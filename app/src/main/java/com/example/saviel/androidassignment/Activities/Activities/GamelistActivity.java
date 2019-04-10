@@ -1,9 +1,12 @@
 package com.example.saviel.androidassignment.Activities.Activities;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MotionEvent;
+import android.widget.Toast;
 
 import com.example.saviel.androidassignment.Activities.Adapters.DaggerGameListComponent;
 import com.example.saviel.androidassignment.Activities.Adapters.GameListAdapter;
