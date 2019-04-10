@@ -37,15 +37,27 @@ public class GamelistActivity extends AppCompatActivity {
 
     private RecyclerView.LayoutManager layoutManager;
 
-    private List<Game> gameList = new ArrayList<>();
+    private List<Game> gameList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gamelist);
 
-        swipeRefreshLayout = findViewById(R.id.swipeToRefresh);
+        loadRecyclerview();
 
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadRecyclerview();
+                refresh();
+            }
+        });
+    }
+
+    private void loadRecyclerview(){
+        gameList = new ArrayList<>();
+        swipeRefreshLayout = findViewById(R.id.swipeToRefresh);
 
         gameRecyclerView = findViewById(R.id.gameList);
         gameRecyclerView.setHasFixedSize(true);
@@ -63,14 +75,6 @@ public class GamelistActivity extends AppCompatActivity {
 
         gameRecyclerView.setAdapter(adapter);
 
-//        createList();
-
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                refresh();
-            }
-        });
     }
 
     private void refresh(){
