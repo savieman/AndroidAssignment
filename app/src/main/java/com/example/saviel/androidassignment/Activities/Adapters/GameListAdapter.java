@@ -14,8 +14,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.saviel.androidassignment.Activities.Activities.GameDetailActivity;
+import com.example.saviel.androidassignment.Activities.Models.Cover;
 import com.example.saviel.androidassignment.Activities.Models.Game;
 import com.example.saviel.androidassignment.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -35,13 +37,21 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.MyView
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
         final int adapterPosition = myViewHolder.getAdapterPosition();
+        final Cover cover = gameList.get(i).getCover();
         myViewHolder.gameTitle.setText(gameList.get(i).getName());
+        if(cover != null) {
+            Picasso.get().load("https://" + cover.getUrl()).into(myViewHolder.gameCover);
+        }
         myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent gotoDetail = new Intent(context, GameDetailActivity.class);
                 gotoDetail.putExtra("Title", gameList.get(adapterPosition).getName());
                 gotoDetail.putExtra("Description", gameList.get(adapterPosition).getSummary());
+                if(cover != null){
+
+                    gotoDetail.putExtra("ImageUrl", cover.getUrl());
+                }
                 context.startActivity(gotoDetail);
             }
         });

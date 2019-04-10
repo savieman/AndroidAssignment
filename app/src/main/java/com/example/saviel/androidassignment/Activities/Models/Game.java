@@ -10,7 +10,7 @@ public class Game {
     private Integer id;
     @SerializedName("cover")
     @Expose
-    private Integer cover;
+    private Cover cover;
     @SerializedName("name")
     @Expose
     private String name;
@@ -26,11 +26,11 @@ public class Game {
         this.id = id;
     }
 
-    public Integer getCover() {
+    public Cover getCover() {
         return cover;
     }
 
-    public void setCover(Integer cover) {
+    public void setCover(Cover cover) {
         this.cover = cover;
     }
 
@@ -50,7 +50,4 @@ public class Game {
         this.summary = summary;
     }
 
-    public Game(String name) {
-        this.name = name;
-    }
 }

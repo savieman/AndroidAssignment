@@ -2,6 +2,7 @@ package com.example.saviel.androidassignment.Activities.Activities;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -29,6 +30,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class GamelistActivity extends AppCompatActivity {
     private RecyclerView gameRecyclerView;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Inject
     GameListAdapter adapter;
@@ -42,6 +44,8 @@ public class GamelistActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gamelist);
 
+        swipeRefreshLayout = findViewById(R.id.swipeToRefresh);
+
 
         gameRecyclerView = findViewById(R.id.gameList);
         gameRecyclerView.setHasFixedSize(true);
@@ -49,7 +53,6 @@ public class GamelistActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         gameRecyclerView.setLayoutManager(layoutManager);
 
-        App app = (App) getApplication();
 
         GameListComponent gameListComponent = DaggerGameListComponent.builder()
                 .gameListAdapterModule(new GameListAdapterModule(gameList))
@@ -59,6 +62,19 @@ public class GamelistActivity extends AppCompatActivity {
         gameListComponent.inject(this);
 
         gameRecyclerView.setAdapter(adapter);
+
+//        createList();
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refresh();
+            }
+        });
+    }
+
+    private void refresh(){
+        App app = (App) getApplication();
 
         GameService gameService = app.getGameService();
         gameService.getGames().subscribeOn(Schedulers.io())
@@ -84,14 +100,14 @@ public class GamelistActivity extends AppCompatActivity {
 
                     @Override
                     public void onComplete() {
-
+                        swipeRefreshLayout.setRefreshing(false);
                     }
                 });
     }
 
-//    private void createList(){
+    private void createList(){
 //        gameList.add(new Game("Bloodborne"));
 //        gameList.add(new Game("Dark souls"));
 //        gameList.add(new Game("Sekiro"));
-//    }
+    }
 }

@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.saviel.androidassignment.R;
+import com.squareup.picasso.Picasso;
 
 public class GameDetailActivity extends AppCompatActivity {
     private ImageView image;
@@ -28,8 +29,11 @@ public class GameDetailActivity extends AppCompatActivity {
 
 
         description.setText("Description Not Available");
-        if(bundle.getString("Description") != null){
+        if(bundle.getString("Description") != null) {
             description.setText(bundle.getString("Description"));
+        }
+        if(bundle.getString("ImageUrl") != null) {
+            Picasso.get().load("https:" + bundle.getString("ImageUrl")).into(image);
         }
 
     }

@@ -16,7 +16,7 @@ public interface IGameService {
             "user-key: 624f702c19d1149e4bbe1b4df3b0f308",
             "Accept: application/json"
     })
-    @GET("games?fields=id,name,summary,cover")
+    @GET("games?fields=id,name,summary,cover.url")
     Observable<List<Game>> getGames();
 
     @Headers({
