@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">AndroidAssignment</string>
     <string name="game_title">PlaceHolderGameTitle</string>
+    <string name="no_description">Description Not Available</string>
+
 </resources>

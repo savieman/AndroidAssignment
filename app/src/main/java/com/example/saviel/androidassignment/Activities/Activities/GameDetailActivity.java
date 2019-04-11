@@ -15,6 +15,10 @@ public class GameDetailActivity extends AppCompatActivity {
     private Bundle bundle;
     private final static String https = "https:";
 
+    private final static String descriptionBundleString = "Description";
+    private final static String titleBundleString = "Title";
+    private final static String imageUrlBundleString = "ImageUrl";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,16 +31,16 @@ public class GameDetailActivity extends AppCompatActivity {
         title = findViewById(R.id.title);
         description = findViewById(R.id.description);
 
-        title.setText(bundle.getString("Title"));
+        title.setText(bundle.getString(titleBundleString));
 
 
-        description.setText("Description Not Available");
-        if(bundle.getString("Description") != null) {
-            description.setText(bundle.getString("Description"));
+        description.setText(R.string.no_description);
+        if(bundle.getString(descriptionBundleString) != null) {
+            description.setText(bundle.getString(descriptionBundleString));
         }
 
-        if(bundle.getString("ImageUrl") != null) {
-            Picasso.get().load(https + bundle.getString("ImageUrl")).into(image);
+        if(bundle.getString(imageUrlBundleString) != null) {
+            Picasso.get().load(https + bundle.getString(imageUrlBundleString)).into(image);
         }
 
     }

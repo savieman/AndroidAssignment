@@ -23,6 +23,11 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.MyView
     private Context context;
     private final static String https = "https:";
 
+    private final static String putStringTitle = "Title";
+    private final static String putStringDescription = "Description";
+    private final static String putStringImageUrl = "ImageUrl";
+
+
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -44,10 +49,10 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.MyView
             @Override
             public void onClick(View v) {
                 Intent gotoDetail = new Intent(context, GameDetailActivity.class);
-                gotoDetail.putExtra("Title", gameList.get(adapterPosition).getName());
-                gotoDetail.putExtra("Description", gameList.get(adapterPosition).getSummary());
+                gotoDetail.putExtra(putStringTitle, gameList.get(adapterPosition).getName());
+                gotoDetail.putExtra(putStringDescription, gameList.get(adapterPosition).getSummary());
                 if(cover != null){
-                    gotoDetail.putExtra("ImageUrl", cover.getCoverUrl());
+                    gotoDetail.putExtra(putStringImageUrl, cover.getCoverUrl());
                 }
                 context.startActivity(gotoDetail);
             }
