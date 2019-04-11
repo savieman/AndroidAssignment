@@ -2,16 +2,13 @@ package com.example.saviel.androidassignment.Activities.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.saviel.androidassignment.Activities.Activities.GameDetailActivity;
 import com.example.saviel.androidassignment.Activities.Models.Cover;
@@ -24,6 +21,7 @@ import java.util.List;
 public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.MyViewHolder>{
     private List<Game> gameList;
     private Context context;
+    private final static String https = "https:";
 
     @NonNull
     @Override
@@ -40,7 +38,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.MyView
         final Cover cover = gameList.get(i).getCover();
         myViewHolder.gameTitle.setText(gameList.get(i).getName());
         if(cover != null) {
-            Picasso.get().load("https://" + cover.getUrl()).into(myViewHolder.gameCover);
+            Picasso.get().load(https + cover.getThumbUrl()).into(myViewHolder.gameCover);
         }
         myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,8 +47,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.MyView
                 gotoDetail.putExtra("Title", gameList.get(adapterPosition).getName());
                 gotoDetail.putExtra("Description", gameList.get(adapterPosition).getSummary());
                 if(cover != null){
-
-                    gotoDetail.putExtra("ImageUrl", cover.getUrl());
+                    gotoDetail.putExtra("ImageUrl", cover.getCoverUrl());
                 }
                 context.startActivity(gotoDetail);
             }

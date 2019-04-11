@@ -13,6 +13,8 @@ public class GameDetailActivity extends AppCompatActivity {
     private ImageView image;
     private TextView title, description;
     private Bundle bundle;
+    private final static String https = "https:";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +34,9 @@ public class GameDetailActivity extends AppCompatActivity {
         if(bundle.getString("Description") != null) {
             description.setText(bundle.getString("Description"));
         }
+
         if(bundle.getString("ImageUrl") != null) {
-            Picasso.get().load("https:" + bundle.getString("ImageUrl")).into(image);
+            Picasso.get().load(https + bundle.getString("ImageUrl")).into(image);
         }
 
     }

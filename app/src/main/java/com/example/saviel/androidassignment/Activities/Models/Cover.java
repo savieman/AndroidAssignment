@@ -9,7 +9,8 @@ public class Cover {
     private Integer id;
     @SerializedName("url")
     @Expose
-    private String url;
+    private String thumbUrl;
+    private final static String t_cover_big = "t_cover_big";
 
     public Integer getId() {
         return id;
@@ -19,11 +20,15 @@ public class Cover {
         this.id = id;
     }
 
-    public String getUrl() {
-        return url;
+    public String getThumbUrl() {
+        return thumbUrl;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setThumbUrl(String url) {
+        this.thumbUrl = thumbUrl;
+    }
+
+    public String getCoverUrl(){
+        return thumbUrl.substring(0, 36) + t_cover_big + thumbUrl.substring(43);
     }
 }
