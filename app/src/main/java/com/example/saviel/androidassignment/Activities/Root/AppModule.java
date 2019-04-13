@@ -19,6 +19,5 @@ public class AppModule {
     @Provides
     GameService provideGameService(Retrofit retrofit){
         return new GameService(retrofit);
-
     }
 }

@@ -1,5 +1,7 @@
 package com.example.saviel.androidassignment.Activities.Adapters;
 
+import android.content.Context;
+
 import com.example.saviel.androidassignment.Activities.Models.Game;
 
 import java.util.List;
@@ -9,15 +11,14 @@ import dagger.Provides;
 
 @Module
 public class GameListAdapterModule {
-    List<Game> gameList;
+    private Context context;
 
-    public GameListAdapterModule(List<Game> gameList) {
-        this.gameList = gameList;
+    public GameListAdapterModule(Context context) {
+        this.context = context;
     }
 
     @Provides
     public GameListAdapter gameListAdapter() {
-//            return new GameListAdapter(gameList);
-        return null;
+        return new GameListAdapter(context);
     }
 }

@@ -8,15 +8,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.example.saviel.androidassignment.Activities.Adapters.DaggerGameListComponent;
 import com.example.saviel.androidassignment.Activities.Adapters.GameListAdapter;
+import com.example.saviel.androidassignment.Activities.Adapters.GameListAdapterModule;
+import com.example.saviel.androidassignment.Activities.Adapters.GameListComponent;
 import com.example.saviel.androidassignment.Activities.Models.Game;
 import com.example.saviel.androidassignment.Activities.Root.App;
 import com.example.saviel.androidassignment.Activities.Services.GameService;
 import com.example.saviel.androidassignment.Activities.ViewModel.GameViewModel;
 import com.example.saviel.androidassignment.R;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -28,12 +32,10 @@ public class GamelistActivity extends AppCompatActivity {
     private SwipeRefreshLayout swipeRefreshLayout;
     private GameViewModel gameViewModel;
 
-//    @Inject
+    @Inject
     GameListAdapter adapter;
 
     private RecyclerView.LayoutManager layoutManager;
-
-    private List<Game> gameList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +63,6 @@ public class GamelistActivity extends AppCompatActivity {
     }
 
     private void loadRecyclerview(){
-        gameList = new ArrayList<>();
         swipeRefreshLayout = findViewById(R.id.swipeToRefresh);
 
         gameRecyclerView = findViewById(R.id.gameList);
@@ -69,15 +70,13 @@ public class GamelistActivity extends AppCompatActivity {
 
         layoutManager = new LinearLayoutManager(this);
         gameRecyclerView.setLayoutManager(layoutManager);
-        adapter = new GameListAdapter(this);
 
-//
-//        GameListComponent gameListComponent = DaggerGameListComponent.builder()
-//                .gameListAdapterModule(new GameListAdapterModule(gameList))
-//                .appComponent(((App) getApplication()).getAppComponent())
-//                .build();
+        GameListComponent gameListComponent = DaggerGameListComponent.builder()
+                .gameListAdapterModule(new GameListAdapterModule(this))
+                .appComponent(((App) getApplication()).getAppComponent())
+                .build();
 
-//        gameListComponent.inject(this);
+        gameListComponent.inject(this);
 
         gameRecyclerView.setAdapter(adapter);
 
@@ -107,7 +106,7 @@ public class GamelistActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        swipeRefreshLayout.setRefreshing(false);
                     }
 
                     @Override
