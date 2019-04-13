@@ -1,22 +1,40 @@
 package com.example.saviel.androidassignment.Activities.Models;
 
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+
+
+@Entity(tableName = "game")
 public class Game {
+
+    @PrimaryKey
+    @NonNull
     @SerializedName("id")
     @Expose
     private Integer id;
     @SerializedName("cover")
     @Expose
+    @Ignore
     private Cover cover;
+    @NonNull
     @SerializedName("name")
     @Expose
     private String name;
     @SerializedName("summary")
     @Expose
     private String summary;
+
+    public Game(@NonNull Integer id, @NonNull String name) {
+        this.id = id;
+        this.name = name;
+    }
 
     public Integer getId() {
         return id;

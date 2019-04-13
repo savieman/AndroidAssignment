@@ -1,7 +1,9 @@
 package com.example.saviel.androidassignment.Activities.Activities;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +18,7 @@ import com.example.saviel.androidassignment.Activities.Adapters.GameListComponen
 import com.example.saviel.androidassignment.Activities.Models.Game;
 import com.example.saviel.androidassignment.Activities.Root.App;
 import com.example.saviel.androidassignment.Activities.Services.GameService;
+import com.example.saviel.androidassignment.Activities.ViewModel.GameViewModel;
 import com.example.saviel.androidassignment.R;
 
 import java.util.ArrayList;
@@ -31,8 +34,9 @@ import io.reactivex.schedulers.Schedulers;
 public class GamelistActivity extends AppCompatActivity {
     private RecyclerView gameRecyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private GameViewModel gameViewModel;
 
-    @Inject
+//    @Inject
     GameListAdapter adapter;
 
     private RecyclerView.LayoutManager layoutManager;
@@ -45,6 +49,14 @@ public class GamelistActivity extends AppCompatActivity {
         setContentView(R.layout.activity_gamelist);
 
         loadRecyclerview();
+
+        gameViewModel = ViewModelProviders.of(this).get(GameViewModel.class);
+        gameViewModel.getAllGames().observe(this, new android.arch.lifecycle.Observer<List<Game>>() {
+            @Override
+            public void onChanged(@Nullable List<Game> games) {
+                adapter.setGames(games);
+            }
+        });
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -64,14 +76,15 @@ public class GamelistActivity extends AppCompatActivity {
 
         layoutManager = new LinearLayoutManager(this);
         gameRecyclerView.setLayoutManager(layoutManager);
+        adapter = new GameListAdapter(this);
 
+//
+//        GameListComponent gameListComponent = DaggerGameListComponent.builder()
+//                .gameListAdapterModule(new GameListAdapterModule(gameList))
+//                .appComponent(((App) getApplication()).getAppComponent())
+//                .build();
 
-        GameListComponent gameListComponent = DaggerGameListComponent.builder()
-                .gameListAdapterModule(new GameListAdapterModule(gameList))
-                .appComponent(((App) getApplication()).getAppComponent())
-                .build();
-
-        gameListComponent.inject(this);
+//        gameListComponent.inject(this);
 
         gameRecyclerView.setAdapter(adapter);
 
@@ -92,8 +105,7 @@ public class GamelistActivity extends AppCompatActivity {
                     @Override
                     public void onNext(List<Game> games) {
                         for (Game game: games) {
-                            gameList.add(game);
-                            adapter.notifyDataSetChanged();
+                            gameViewModel.insert(game);
                         }
                     }
 

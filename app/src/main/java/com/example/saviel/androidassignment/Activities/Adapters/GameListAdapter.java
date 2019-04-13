@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.saviel.androidassignment.Activities.Activities.GameDetailActivity;
+import com.example.saviel.androidassignment.Activities.Activities.GamelistActivity;
 import com.example.saviel.androidassignment.Activities.Models.Cover;
 import com.example.saviel.androidassignment.Activities.Models.Game;
 import com.example.saviel.androidassignment.R;
@@ -21,47 +22,71 @@ import java.util.List;
 public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.MyViewHolder>{
     private List<Game> gameList;
     private Context context;
+
     private final static String https = "https:";
 
     private final static String putStringTitle = "Title";
     private final static String putStringDescription = "Description";
     private final static String putStringImageUrl = "ImageUrl";
 
+    public GameListAdapter(Context context) {
+        this.context = context;
+    }
+
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        context = viewGroup.getContext();
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.cardview_gamelist, viewGroup, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.cardview_gamelist, viewGroup, false);
         MyViewHolder vw = new MyViewHolder(view);
         return vw;
     }
 
+
+
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
-        final int adapterPosition = myViewHolder.getAdapterPosition();
-        final Cover cover = gameList.get(i).getCover();
-        myViewHolder.gameTitle.setText(gameList.get(i).getName());
-        if(cover != null) {
-            Picasso.get().load(https + cover.getThumbUrl()).into(myViewHolder.gameCover);
+//        final int adapterPosition = myViewHolder.getAdapterPosition();
+//        final Cover cover = gameList.get(i).getCover();
+//        myViewHolder.gameTitle.setText(gameList.get(i).getName());
+//        if(cover != null) {
+//            Picasso.get().load(https + cover.getThumbUrl()).into(myViewHolder.gameCover);
+//        }
+//        myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent gotoDetail = new Intent(context, GameDetailActivity.class);
+//                gotoDetail.putExtra(putStringTitle, gameList.get(adapterPosition).getName());
+//                gotoDetail.putExtra(putStringDescription, gameList.get(adapterPosition).getSummary());
+//                if(cover != null){
+//                    gotoDetail.putExtra(putStringImageUrl, cover.getCoverUrl());
+//                }
+//                context.startActivity(gotoDetail);
+//            }
+//        });
+
+
+        if(gameList != null) {
+            Game current = gameList.get(i);
+            myViewHolder.gameTitle.setText(current.getName());
         }
-        myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent gotoDetail = new Intent(context, GameDetailActivity.class);
-                gotoDetail.putExtra(putStringTitle, gameList.get(adapterPosition).getName());
-                gotoDetail.putExtra(putStringDescription, gameList.get(adapterPosition).getSummary());
-                if(cover != null){
-                    gotoDetail.putExtra(putStringImageUrl, cover.getCoverUrl());
-                }
-                context.startActivity(gotoDetail);
-            }
-        });
+
+        else {
+            myViewHolder.gameTitle.setText(R.string.no_game_title);
+        }
+    }
+
+    public void setGames(List<Game> games){
+        gameList = games;
+        notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        return gameList.size();
+        if(gameList != null) {
+            return gameList.size();
+        }
+        else return 0;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -74,8 +99,8 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.MyView
             gameCover = itemView.findViewById(R.id.gameCover);
         }
     }
-
-    public GameListAdapter(List<Game> gameList) {
-        this.gameList = gameList;
-    }
+//
+//    public GameListAdapter(List<Game> gameList) {
+//        this.gameList = gameList;
+//    }
 }

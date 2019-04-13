@@ -17,6 +17,7 @@ public class GameListAdapterModule {
 
     @Provides
     public GameListAdapter gameListAdapter() {
-        return new GameListAdapter(gameList);
+//            return new GameListAdapter(gameList);
+        return null;
     }
 }
