@@ -29,6 +29,10 @@ public class GameRepository {
         new insertAsynchTask(gameDao).execute(game);
     }
 
+    public void deleteAll() {
+        new deleteAsynchTask(gameDao).execute();
+    }
+
     private static class insertAsynchTask extends AsyncTask<Game, Void, Void>{
 
         private GameDao asyncTaskDao;
@@ -41,6 +45,21 @@ public class GameRepository {
         @Override
         protected Void doInBackground(final Game... games) {
             asyncTaskDao.addGame(games[0]);
+            return null;
+        }
+    }
+
+    private static class deleteAsynchTask extends AsyncTask<Void, Void, Void>{
+
+        private GameDao asyncTaskDao;
+
+        public deleteAsynchTask(GameDao gameDao) {
+            asyncTaskDao = gameDao;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            asyncTaskDao.deleteAll();
             return null;
         }
     }

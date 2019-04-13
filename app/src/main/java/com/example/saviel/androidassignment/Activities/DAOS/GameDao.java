@@ -18,6 +18,6 @@ public interface GameDao {
     @Query("DELETE FROM game")
     void deleteAll();
 
-    @Query("SELECT * from game ORDER BY name ASC")
+    @Query("SELECT * FROM game ORDER BY name ASC")
     LiveData<List<Game>> getAllGames();
 }

@@ -50,9 +50,6 @@ public abstract class GameRoomDatabase extends RoomDatabase{
 
         @Override
         protected Void doInBackground(Void... voids) {
-            gameDao.deleteAll();
-            Game game = new Game(1, "Bloodborne");
-            gameDao.addGame(game);
             return null;
         }
     }

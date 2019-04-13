@@ -2,19 +2,13 @@ package com.example.saviel.androidassignment.Activities.Activities;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.MotionEvent;
-import android.widget.Toast;
 
-import com.example.saviel.androidassignment.Activities.Adapters.DaggerGameListComponent;
 import com.example.saviel.androidassignment.Activities.Adapters.GameListAdapter;
-import com.example.saviel.androidassignment.Activities.Adapters.GameListAdapterModule;
-import com.example.saviel.androidassignment.Activities.Adapters.GameListComponent;
 import com.example.saviel.androidassignment.Activities.Models.Game;
 import com.example.saviel.androidassignment.Activities.Root.App;
 import com.example.saviel.androidassignment.Activities.Services.GameService;
@@ -23,8 +17,6 @@ import com.example.saviel.androidassignment.R;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.inject.Inject;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -61,7 +53,8 @@ public class GamelistActivity extends AppCompatActivity {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                loadRecyclerview();
+                gameViewModel.deleteAll();
+                adapter.notifyDataSetChanged();
                 refresh();
             }
         });
@@ -105,6 +98,9 @@ public class GamelistActivity extends AppCompatActivity {
                     @Override
                     public void onNext(List<Game> games) {
                         for (Game game: games) {
+                            if(game.getCover() != null) {
+                                game.setThumbUrl(game.getCover().getThumbUrl());
+                            }
                             gameViewModel.insert(game);
                         }
                     }
@@ -119,11 +115,5 @@ public class GamelistActivity extends AppCompatActivity {
                         swipeRefreshLayout.setRefreshing(false);
                     }
                 });
-    }
-
-    private void createList(){
-//        gameList.add(new Game("Bloodborne"));
-//        gameList.add(new Game("Dark souls"));
-//        gameList.add(new Game("Sekiro"));
     }
 }

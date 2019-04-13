@@ -23,6 +23,7 @@ public class Game {
     @Expose
     @Ignore
     private Cover cover;
+    private String thumbUrl;
     @NonNull
     @SerializedName("name")
     @Expose
@@ -30,6 +31,7 @@ public class Game {
     @SerializedName("summary")
     @Expose
     private String summary;
+
 
     public Game(@NonNull Integer id, @NonNull String name) {
         this.id = id;
@@ -44,12 +46,12 @@ public class Game {
         this.id = id;
     }
 
-    public Cover getCover() {
-        return cover;
+    public String getThumbUrl() {
+        return thumbUrl;
     }
 
-    public void setCover(Cover cover) {
-        this.cover = cover;
+    public void setCoverUrl(String coverUrl) {
+        this.thumbUrl = coverUrl;
     }
 
     public String getName() {
@@ -60,6 +62,14 @@ public class Game {
         this.name = name;
     }
 
+    public Cover getCover() {
+        return cover;
+    }
+
+    public void setCover(Cover cover) {
+        this.cover = cover;
+    }
+
     public String getSummary() {
         return summary;
     }
@@ -68,4 +78,11 @@ public class Game {
         this.summary = summary;
     }
 
+    public void setThumbUrl(String thumbUrl) {
+        this.thumbUrl = thumbUrl;
+    }
+
+    public String getCoverBigUrl(){
+        return thumbUrl.substring(0, 36) + "t_cover_big" + thumbUrl.substring(43);
+    }
 }

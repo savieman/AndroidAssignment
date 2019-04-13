@@ -28,4 +28,8 @@ public class GameViewModel extends AndroidViewModel {
     public void insert(Game game) {
         gameRepository.insert(game);
     }
+
+    public void deleteAll(){
+        gameRepository.deleteAll();
+    }
 }

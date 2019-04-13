@@ -11,8 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.saviel.androidassignment.Activities.Activities.GameDetailActivity;
-import com.example.saviel.androidassignment.Activities.Activities.GamelistActivity;
-import com.example.saviel.androidassignment.Activities.Models.Cover;
 import com.example.saviel.androidassignment.Activities.Models.Game;
 import com.example.saviel.androidassignment.R;
 import com.squareup.picasso.Picasso;
@@ -46,29 +44,30 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.MyView
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
-//        final int adapterPosition = myViewHolder.getAdapterPosition();
-//        final Cover cover = gameList.get(i).getCover();
-//        myViewHolder.gameTitle.setText(gameList.get(i).getName());
-//        if(cover != null) {
-//            Picasso.get().load(https + cover.getThumbUrl()).into(myViewHolder.gameCover);
-//        }
-//        myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent gotoDetail = new Intent(context, GameDetailActivity.class);
-//                gotoDetail.putExtra(putStringTitle, gameList.get(adapterPosition).getName());
-//                gotoDetail.putExtra(putStringDescription, gameList.get(adapterPosition).getSummary());
-//                if(cover != null){
-//                    gotoDetail.putExtra(putStringImageUrl, cover.getCoverUrl());
-//                }
-//                context.startActivity(gotoDetail);
-//            }
-//        });
-
-
+        final int adapterPosition = myViewHolder.getAdapterPosition();
         if(gameList != null) {
             Game current = gameList.get(i);
             myViewHolder.gameTitle.setText(current.getName());
+
+            final String cover = gameList.get(i).getThumbUrl();
+            myViewHolder.gameTitle.setText(gameList.get(i).getName());
+            System.out.println(gameList.get(i).getName());
+            if(cover != null) {
+                Picasso.get().load(https + cover).into(myViewHolder.gameCover);
+            }
+
+            myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent gotoDetail = new Intent(context, GameDetailActivity.class);
+                    gotoDetail.putExtra(putStringTitle, gameList.get(adapterPosition).getName());
+                    gotoDetail.putExtra(putStringDescription, gameList.get(adapterPosition).getSummary());
+                    if(cover != null){
+                        gotoDetail.putExtra(putStringImageUrl, cover);
+                    }
+                    context.startActivity(gotoDetail);
+                }
+            });
         }
 
         else {
