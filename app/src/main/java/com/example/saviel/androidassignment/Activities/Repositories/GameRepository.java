@@ -9,6 +9,7 @@ import com.example.saviel.androidassignment.Activities.Data.GameRoomDatabase;
 import com.example.saviel.androidassignment.Activities.Models.Game;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class GameRepository {
 
@@ -31,6 +32,19 @@ public class GameRepository {
 
     public void deleteAll() {
         new deleteAsynchTask(gameDao).execute();
+    }
+
+    public void update(Game game) {
+        new updateAsynchTask(gameDao).execute(game);
+    }
+
+    public Game getGame(Integer id) {
+        try {
+            return new getGameAsynchTask(gameDao).execute(id).get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private static class insertAsynchTask extends AsyncTask<Game, Void, Void>{
@@ -61,6 +75,36 @@ public class GameRepository {
         protected Void doInBackground(Void... voids) {
             asyncTaskDao.deleteAll();
             return null;
+        }
+    }
+
+    private static class updateAsynchTask extends AsyncTask<Game, Void, Void> {
+
+        private GameDao asynchTaskDao;
+
+        public updateAsynchTask(GameDao gameDao) {
+            asynchTaskDao = gameDao;
+        }
+
+        @Override
+        protected Void doInBackground(Game... games) {
+            asynchTaskDao.updateGame(games[0]);
+            return null;
+        }
+    }
+
+    private static class getGameAsynchTask extends AsyncTask<Integer, Void, Game>{
+
+        private GameDao asyncTaskDao;
+
+        getGameAsynchTask(GameDao gameDao) {
+            asyncTaskDao = gameDao;
+        }
+
+        @Override
+        protected Game doInBackground(Integer... integers) {
+            return asyncTaskDao.getGame(integers[0]);
+
         }
     }
 }

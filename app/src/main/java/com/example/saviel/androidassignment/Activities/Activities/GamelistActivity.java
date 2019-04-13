@@ -52,11 +52,11 @@ public class GamelistActivity extends AppCompatActivity {
             }
         });
 
+        refresh();
+
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                gameViewModel.deleteAll();
-                adapter.notifyDataSetChanged();
                 refresh();
             }
         });
@@ -97,10 +97,15 @@ public class GamelistActivity extends AppCompatActivity {
                     @Override
                     public void onNext(List<Game> games) {
                         for (Game game: games) {
-                            if(game.getCover() != null) {
+                            if(game.getCover() != null){
                                 game.setThumbUrl(game.getCover().getThumbUrl());
                             }
-                            gameViewModel.insert(game);
+
+                            if(gameViewModel.getGame(game.getId()) == null){
+                                gameViewModel.insert(game);
+                            } else{
+                                gameViewModel.update(game);
+                            }
                         }
                     }
 

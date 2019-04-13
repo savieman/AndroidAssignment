@@ -32,4 +32,12 @@ public class GameViewModel extends AndroidViewModel {
     public void deleteAll(){
         gameRepository.deleteAll();
     }
+
+    public void update(Game game) {
+        gameRepository.update(game);
+    }
+
+    public Game getGame(Integer id) {
+        return gameRepository.getGame(id);
+    }
 }

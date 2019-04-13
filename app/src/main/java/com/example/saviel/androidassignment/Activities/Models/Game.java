@@ -32,6 +32,9 @@ public class Game {
     @Expose
     private String summary;
 
+    private final static String t_cover_big = "t_cover_big";
+
+
 
     public Game(@NonNull Integer id, @NonNull String name) {
         this.id = id;
@@ -87,6 +90,6 @@ public class Game {
     }
 
     public String getCoverBigUrl(){
-        return thumbUrl.substring(0, 36) + "t_cover_big" + thumbUrl.substring(43);
+        return thumbUrl.substring(0, 36) + t_cover_big + thumbUrl.substring(43);
     }
 }
