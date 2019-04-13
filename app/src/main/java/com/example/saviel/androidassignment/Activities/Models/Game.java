@@ -46,6 +46,10 @@ public class Game {
         this.id = id;
     }
 
+    public boolean hasCover() {
+        return thumbUrl != null;
+    }
+
     public String getThumbUrl() {
         return thumbUrl;
     }

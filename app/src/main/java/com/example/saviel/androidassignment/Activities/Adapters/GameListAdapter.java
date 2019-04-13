@@ -44,26 +44,23 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.MyView
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
-        final int adapterPosition = myViewHolder.getAdapterPosition();
         if(gameList != null) {
-            Game current = gameList.get(i);
-            myViewHolder.gameTitle.setText(current.getName());
+            final Game game = gameList.get(i);
+            myViewHolder.gameTitle.setText(game.getName());
 
-            final String cover = gameList.get(i).getThumbUrl();
-            myViewHolder.gameTitle.setText(gameList.get(i).getName());
-            System.out.println(gameList.get(i).getName());
-            if(cover != null) {
-                Picasso.get().load(https + cover).into(myViewHolder.gameCover);
+            myViewHolder.gameTitle.setText(game.getName());
+            if(game.hasCover()) {
+                Picasso.get().load(https + game.getThumbUrl()).into(myViewHolder.gameCover);
             }
 
             myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent gotoDetail = new Intent(context, GameDetailActivity.class);
-                    gotoDetail.putExtra(putStringTitle, gameList.get(adapterPosition).getName());
-                    gotoDetail.putExtra(putStringDescription, gameList.get(adapterPosition).getSummary());
-                    if(cover != null){
-                        gotoDetail.putExtra(putStringImageUrl, cover);
+                    gotoDetail.putExtra(putStringTitle, game.getName());
+                    gotoDetail.putExtra(putStringDescription, game.getSummary());
+                    if(game.hasCover()){
+                        gotoDetail.putExtra(putStringImageUrl, game.getCoverBigUrl());
                     }
                     context.startActivity(gotoDetail);
                 }
