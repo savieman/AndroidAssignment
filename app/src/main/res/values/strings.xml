@@ -3,5 +3,6 @@
     <string name="game_title">PlaceHolderGameTitle</string>
     <string name="no_description">Description Not Available</string>
     <string name="no_game_title">Untitled</string>
+    <string name="no_available_image_text">NO IMAGE AVAILABLE</string>
 
 </resources>

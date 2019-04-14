@@ -1,8 +1,8 @@
 package com.example.saviel.androidassignment.Activities.Activities;
 
-import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,6 +12,7 @@ import com.squareup.picasso.Picasso;
 public class GameDetailActivity extends AppCompatActivity {
     private ImageView image;
     private TextView title, description;
+    private TextView noImageAvailable;
     private Bundle bundle;
     private final static String https = "https:";
 
@@ -30,9 +31,9 @@ public class GameDetailActivity extends AppCompatActivity {
         image = findViewById(R.id.image);
         title = findViewById(R.id.title);
         description = findViewById(R.id.description);
+        noImageAvailable = findViewById(R.id.noImageAvailable);
 
         title.setText(bundle.getString(titleBundleString));
-
 
         description.setText(R.string.no_description);
         if(bundle.getString(descriptionBundleString) != null) {
@@ -41,6 +42,10 @@ public class GameDetailActivity extends AppCompatActivity {
 
         if(bundle.getString(imageUrlBundleString) != null) {
             Picasso.get().load(https + bundle.getString(imageUrlBundleString)).into(image);
+            image.setVisibility(View.VISIBLE);
+        } else {
+            noImageAvailable.setVisibility(View.VISIBLE);
+            noImageAvailable.setText(R.string.no_available_image_text);
         }
 
     }
