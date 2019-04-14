@@ -48,9 +48,10 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.MyView
             final Game game = gameList.get(i);
             myViewHolder.gameTitle.setText(game.getName());
 
-            myViewHolder.gameTitle.setText(game.getName());
             if(game.hasCover()) {
                 Picasso.get().load(https + game.getThumbUrl()).into(myViewHolder.gameCover);
+            } else {
+                myViewHolder.gameCover.setImageResource(R.mipmap.ic_launcher);
             }
 
             myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -95,8 +96,4 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.MyView
             gameCover = itemView.findViewById(R.id.gameCover);
         }
     }
-//
-//    public GameListAdapter(List<Game> gameList) {
-//        this.gameList = gameList;
-//    }
 }
